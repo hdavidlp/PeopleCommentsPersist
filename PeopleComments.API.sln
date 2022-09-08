@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleComments.API", "PeopleComments.API\PeopleComments.API.csproj", "{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleComments.Data", "PeopleComments.Data\PeopleComments.Data.csproj", "{2D963867-1DC9-4ABE-B84D-E1C713F733F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AB24A41-6EA1-4C27-BF65-55CA26963CAE}
+	EndGlobalSection
+EndGlobal
