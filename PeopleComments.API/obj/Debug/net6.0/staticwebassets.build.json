@@ -1,23 +1,11 @@
 {
   "Version": 1,
-  "Hash": "TvwtjWzmMPGytTIVFzYA4zaWXcVZeSNFfwIUdBcZryo=",
+  "Hash": "iDw9Cd0me182G91Kx3t5DRZI8JGSXc2BWSkH/QNyp9Y=",
   "Source": "PeopleComments.API",
   "BasePath": "_content/PeopleComments.API",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [
-    {
-      "Identity": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Data\\PeopleComments.Data.csproj",
-      "Version": 2,
-      "Source": "PeopleComments.Data",
-      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
-      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier",
-      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
-      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier"
-    }
-  ],
+  "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
   "Assets": []
 }

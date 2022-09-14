@@ -5,8 +5,6 @@ VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleComments.API", "PeopleComments.API\PeopleComments.API.csproj", "{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleComments.Data", "PeopleComments.Data\PeopleComments.Data.csproj", "{2D963867-1DC9-4ABE-B84D-E1C713F733F9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeopleComments.Dll", "PeopleComments.Dll\PeopleComments.Dll.csproj", "{16168DDB-FE29-47F9-AED2-B0FEFDEC215C}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90DAC312-9B2E-4BD9-8874-2AD10B7AA660}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D963867-1DC9-4ABE-B84D-E1C713F733F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16168DDB-FE29-47F9-AED2-B0FEFDEC215C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16168DDB-FE29-47F9-AED2-B0FEFDEC215C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16168DDB-FE29-47F9-AED2-B0FEFDEC215C}.Release|Any CPU.ActiveCfg = Release|Any CPU

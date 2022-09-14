@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using PeopleComments.Data.DbContexts;
-using PeopleComments.Data.Services;
+using PeopleComments.Dll.DbContexts;
+using PeopleComments.Dll.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

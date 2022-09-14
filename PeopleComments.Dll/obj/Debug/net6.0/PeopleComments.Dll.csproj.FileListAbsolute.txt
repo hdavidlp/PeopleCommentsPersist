@@ -1,0 +1,14 @@
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\bin\Debug\net6.0\PeopleComments.Dll.deps.json
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\bin\Debug\net6.0\PeopleComments.Dll.runtimeconfig.json
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\bin\Debug\net6.0\PeopleComments.Dll.dll
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\bin\Debug\net6.0\PeopleComments.Dll.pdb
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.csproj.AssemblyReference.cache
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.AssemblyInfoInputs.cache
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.AssemblyInfo.cs
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.csproj.CoreCompileInputs.cache
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.dll
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\refint\PeopleComments.Dll.dll
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.pdb
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\PeopleComments.Dll.genruntimeconfig.cache
+C:\Users\Hector Lopez P\source\repos\PeopleComments.API\PeopleComments.Dll\obj\Debug\net6.0\ref\PeopleComments.Dll.dll

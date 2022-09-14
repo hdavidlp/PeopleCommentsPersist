@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using PeopleComments.Data.Entities;
-using PeopleComments.Data.Models;
-using PeopleComments.Data.Services;
+using PeopleComments.Dll.Entities;
+using PeopleComments.Dll.Models;
+using PeopleComments.Dll.Services;
 using System.Security.Principal;
 using System.Text.Json;
 //using Newtonsoft.Json;

@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Data\\PeopleComments.Data.csproj": {
-                "projectPath": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Data\\PeopleComments.Data.csproj"
+              "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Dll\\PeopleComments.Dll.csproj": {
+                "projectPath": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Dll\\PeopleComments.Dll.csproj"
               }
             }
           }
@@ -82,14 +82,14 @@
         }
       }
     },
-    "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Data\\PeopleComments.Data.csproj": {
+    "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Dll\\PeopleComments.Dll.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Data\\PeopleComments.Data.csproj",
-        "projectName": "PeopleComments.Data",
-        "projectPath": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Data\\PeopleComments.Data.csproj",
+        "projectUniqueName": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Dll\\PeopleComments.Dll.csproj",
+        "projectName": "PeopleComments.Dll",
+        "projectPath": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Dll\\PeopleComments.Dll.csproj",
         "packagesPath": "C:\\Users\\Hector Lopez P\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Data\\obj\\",
+        "outputPath": "C:\\Users\\Hector Lopez P\\source\\repos\\PeopleComments.API\\PeopleComments.Dll\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Hector Lopez P\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -135,10 +135,6 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.0, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.2.3, )"
             }
           },
           "imports": [
@@ -153,9 +149,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
