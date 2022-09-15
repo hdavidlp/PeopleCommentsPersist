@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using PeopleComments.Dll.Entities;
-using PeopleComments.Dll.Models;
+using PeopleComments.Dll.Models.Account;
 using PeopleComments.Dll.Services;
 using System.Security.Principal;
 using System.Text.Json;

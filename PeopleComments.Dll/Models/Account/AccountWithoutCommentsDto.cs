@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace PeopleComments.Dll.Models
+namespace PeopleComments.Dll.Models.Account
 {
     public class AccountWithoutCommentsDto
     {

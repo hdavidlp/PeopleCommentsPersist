@@ -2,12 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace PeopleComments.Dll.Models
+namespace PeopleComments.Dll.Models.Account
 {
-    public class AccountForCreationDto
+    public class AccountForUpdateDto
     {
-        public int Id { get; set; }
-
 
         [Required]
         [MaxLength(30)]
@@ -17,8 +15,9 @@ namespace PeopleComments.Dll.Models
         [AllowNull]
         public string Email { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
-                = new List<Comment>();
+        //public ICollection<Comment> Comments { get; set; }
+        //        = new List<Comment>();
+
 
     }
 }
