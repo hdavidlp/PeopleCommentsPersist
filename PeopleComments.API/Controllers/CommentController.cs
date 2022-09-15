@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using PeopleComments.Dll.Entities;
-using PeopleComments.Dll.Models;
+using PeopleComments.Dll.Models.Comment;
 using PeopleComments.Dll.Services;
 
 namespace PeopleComments.API.Controllers
