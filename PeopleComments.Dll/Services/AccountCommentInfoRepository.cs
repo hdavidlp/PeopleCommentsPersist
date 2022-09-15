@@ -114,6 +114,13 @@ namespace PeopleComments.Dll.Services
             return (await _context.SaveChangesAsync() >= 0);
         }
 
-        
+        // ************************************************************
+
+        public async Task<IEnumerable<Account>> GetCommentsAsync()
+        {
+            return await _context.Accounts.Include(c => c.Comments).ToListAsync();
+            //return await _context.Comments.Include(c=> c) .ToListAsync();
+        }
+
     }
 }

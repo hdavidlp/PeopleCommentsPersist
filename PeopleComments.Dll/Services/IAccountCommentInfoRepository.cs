@@ -1,5 +1,6 @@
 ﻿using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Models;
+using PeopleComments.Dll.Models.LogList;
 
 namespace PeopleComments.Dll.Services
 {
@@ -24,6 +25,9 @@ namespace PeopleComments.Dll.Services
         void DeleteCommentForAccount(Comment comment);
 
         Task<bool> SaveChangesAsync();
+
+
+        Task<IEnumerable<Account>> GetCommentsAsync();
 
 
     }

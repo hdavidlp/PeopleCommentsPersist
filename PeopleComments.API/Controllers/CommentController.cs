@@ -22,6 +22,8 @@ namespace PeopleComments.API.Controllers
                 throw new ArgumentNullException(nameof(mapper));
         }
 
+        
+
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CommentDto>>> GetCommentsOfAccount(int accountId)

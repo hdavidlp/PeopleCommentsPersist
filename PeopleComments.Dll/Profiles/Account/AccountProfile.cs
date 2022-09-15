@@ -13,6 +13,9 @@ namespace PeopleComments.Dll.Profiles.Account
             CreateMap<AccountForCreationDto, Entities.Account>();
             CreateMap<AccountForUpdateDto, Entities.Account>();
             CreateMap<Entities.Account, AccountForUpdateDto>();
+
+            
+            CreateMap<Entities.Account, AccountWithCommentsDto>();
         }
     }
 }
