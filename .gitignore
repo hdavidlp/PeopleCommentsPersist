@@ -8,4 +8,5 @@ PeopleComments.Data/obj/
 PeopleComments.Dll/bin/
 PeopleComments.Dll/obj/
 
-.vs/
+/.vs/
+\.vs\

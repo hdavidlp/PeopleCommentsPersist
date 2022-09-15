@@ -9,5 +9,7 @@ namespace PeopleComments.Dll.Models.Comment
         public int Id { get; set; }
 
         public string CommentDetail { get; set; } = string.Empty;
+
+        public DateTime Date { get; set; } 
     }
 }

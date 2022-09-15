@@ -9,5 +9,6 @@ namespace PeopleComments.Dll.Models.Comment
         [Required(ErrorMessage = "You should provide a Comment value.")]
         [MaxLength(255)]
         public string CommentDetail { get; set; } = string.Empty;
+        public DateTime Date { get; set; } = System.DateTime.Now;
     }
 }

@@ -14,6 +14,9 @@ namespace PeopleComments.Dll.Entities
         [MaxLength(255)]    
         public string CommentDetail { get; set; }
 
+        [Required]
+        public DateTime Date { get; set; }  
+
 
         // Account - Comments Relation 
         [ForeignKey("AccountId")]
