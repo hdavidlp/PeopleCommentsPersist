@@ -12,10 +12,11 @@ namespace PeopleComments.API.Controllers
     [ApiController]
     public class ListController : ControllerBase
     {
-        private readonly IAccountCommentInfoRepository _commentInfoRepository;
+        private readonly ICommentInfoRepository _commentInfoRepository;
         private readonly IMapper _mapper;
 
-        public ListController(IAccountCommentInfoRepository commentInfoRepository , IMapper mapper)
+        public ListController(ICommentInfoRepository commentInfoRepository, 
+            IMapper mapper)
         {
             _commentInfoRepository = commentInfoRepository ??
                 throw new ArgumentNullException(nameof(commentInfoRepository));

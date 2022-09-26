@@ -85,65 +85,65 @@ namespace PeopleComments.Dll.Services
             _context.Accounts.Remove(account);  
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsForAccountAsync(int accountId)
-        {
-            return await _context.Comments
-                .Where(p => p.AccountId == accountId).ToListAsync();
-        }
+        //public async Task<IEnumerable<Comment>> GetCommentsForAccountAsync(int accountId)
+        //{
+        //    return await _context.Comments
+        //        .Where(p => p.AccountId == accountId).ToListAsync();
+        //}
 
-        public async Task<Comment?> GetCommentForAccount(
-            int accountId,
-            int commentId)
-        {
-            return await _context.Comments
-                .Where(c => c.AccountId == accountId && c.Id == commentId)
-                .FirstAsync();
-        }
+        //public async Task<Comment?> GetCommentForAccount(
+        //    int accountId,
+        //    int commentId)
+        //{
+        //    return await _context.Comments
+        //        .Where(c => c.AccountId == accountId && c.Id == commentId)
+        //        .FirstAsync();
+        //}
 
-        public (CommentDto, Object) convertoComment(int accountId, Comment newComment)
-        {
-            var createdCommentToReturn =
-                _mapper.Map<CommentDto>(newComment);
+        //public (CommentDto, Object) convertoComment(int accountId, Comment newComment)
+        //{
+        //    var createdCommentToReturn =
+        //        _mapper.Map<CommentDto>(newComment);
 
-            var x = new { accountId = accountId, commentId = createdCommentToReturn.Id };
+        //    var x = new { accountId = accountId, commentId = createdCommentToReturn.Id };
 
-            return (createdCommentToReturn, x);
-        }
+        //    return (createdCommentToReturn, x);
+        //}
 
-        public async Task<bool> AddCommentForAccountAsync(int accountId, Comment comment)
-        {
+        //public async Task<bool> AddCommentForAccountAsync(int accountId, Comment comment)
+        //{
 
-            if (!await AccountExistsAsync(accountId))
-            {
-                return false;
-            }
+        //    if (!await AccountExistsAsync(accountId))
+        //    {
+        //        return false;
+        //    }
 
-            var account = await GetAccountAsync(accountId);
-            if (account != null)
-            {
-                account.Comments.Add(comment);
-            }
+        //    var account = await GetAccountAsync(accountId);
+        //    if (account != null)
+        //    {
+        //        account.Comments.Add(comment);
+        //    }
 
-            await SaveChangesAsync();
+        //    await SaveChangesAsync();
 
-            return true;
-        }
+        //    return true;
+        //}
 
 
 
-        public void DeleteCommentForAccount(Comment comment)
-        {
-            _context.Comments.Remove(comment);
-        }
+        //public void DeleteCommentForAccount(Comment comment)
+        //{
+        //    _context.Comments.Remove(comment);
+        //}
 
 
         // ************************************************************
 
-        public async Task<IEnumerable<Account>> GetCommentsAsync()
-        {
-            return await _context.Accounts.Include(c => c.Comments).ToListAsync();
-            //return await _context.Comments.Include(c=> c) .ToListAsync();
-        }
+        //public async Task<IEnumerable<Account>> GetCommentsAsync()
+        //{
+        //    return await _context.Accounts.Include(c => c.Comments).ToListAsync();
+        //    //return await _context.Comments.Include(c=> c) .ToListAsync();
+        //}
 
 
         public async Task<bool> SaveChangesAsync()

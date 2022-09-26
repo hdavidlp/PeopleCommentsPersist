@@ -12,12 +12,18 @@ namespace PeopleComments.API.Controllers
     public class CommentController : ControllerBase
     {
         private readonly IAccountCommentInfoRepository _accountCommentInfoRepository;
+        private readonly ICommentInfoRepository _commentInfoRepository;
         private readonly IMapper _mapper;
 
-        public CommentController(IAccountCommentInfoRepository accountCommentInfoRepository, IMapper mapper)
+        public CommentController(
+            IAccountCommentInfoRepository accountCommentInfoRepository, 
+            ICommentInfoRepository commentInfoRepository,
+            IMapper mapper)
         {
             _accountCommentInfoRepository = accountCommentInfoRepository ??
                 throw new ArgumentNullException(nameof(accountCommentInfoRepository));
+            _commentInfoRepository = commentInfoRepository??
+                throw new ArgumentNullException(nameof(commentInfoRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
         }
@@ -30,7 +36,7 @@ namespace PeopleComments.API.Controllers
                 return NotFound();
             }
 
-            var commentsForAccount = await _accountCommentInfoRepository
+            var commentsForAccount = await _commentInfoRepository
                 .GetCommentsForAccountAsync(accountId);
 
             return Ok(_mapper.Map<IEnumerable<CommentDto>>(commentsForAccount));
@@ -45,7 +51,7 @@ namespace PeopleComments.API.Controllers
                 return NotFound();
             }
 
-            var comment = await _accountCommentInfoRepository
+            var comment = await _commentInfoRepository
                 .GetCommentForAccount(accountId, commentId);
             if (comment == null)
             {
@@ -55,9 +61,6 @@ namespace PeopleComments.API.Controllers
             return Ok(_mapper.Map<CommentDto>(comment));
         }
 
-        
-
-
         [HttpPost]
         public async Task<ActionResult<CommentDto>> CreateComment(
             int accountId,
@@ -65,21 +68,19 @@ namespace PeopleComments.API.Controllers
         {
             var newComment = _mapper.Map<Comment>(comment);
 
-            if(!await _accountCommentInfoRepository.AddCommentForAccountAsync(
+            if(!await _commentInfoRepository.AddCommentForAccountAsync(
                 accountId, newComment))
             {
                 return NotFound();
             }
 
             var (createdCommentToReturn, infoAccountIdAndCommentId) =
-                _accountCommentInfoRepository.convertoComment(accountId, newComment);
+                _commentInfoRepository.convertoComment(accountId, newComment);
 
             return CreatedAtRoute("GetComment",
                 infoAccountIdAndCommentId,
                 createdCommentToReturn);
         }
-
-
 
         [HttpPut("{commentid}")]
         public async Task<ActionResult> UpdateComment(
@@ -92,7 +93,7 @@ namespace PeopleComments.API.Controllers
                 return NotFound();
             }
 
-            var commentEntity = await _accountCommentInfoRepository
+            var commentEntity = await _commentInfoRepository
                 .GetCommentForAccount(accountId, commentId);
             if (commentEntity == null)
             {
@@ -100,8 +101,7 @@ namespace PeopleComments.API.Controllers
             }
 
             _mapper.Map(comment, commentEntity);
-            
-            
+
             await _accountCommentInfoRepository.SaveChangesAsync();
             return NoContent();
         }
@@ -119,7 +119,7 @@ namespace PeopleComments.API.Controllers
                 return NotFound();
             }
 
-            var commentEntity = await _accountCommentInfoRepository
+            var commentEntity = await _commentInfoRepository
                 .GetCommentForAccount(accountId, commentId);
             
             if (commentEntity == null)
@@ -127,8 +127,8 @@ namespace PeopleComments.API.Controllers
                 return NotFound();
             }
 
-            _accountCommentInfoRepository.DeleteCommentForAccount(commentEntity);
-            await _accountCommentInfoRepository.SaveChangesAsync();
+            _commentInfoRepository.DeleteCommentForAccount(commentEntity);
+            await _commentInfoRepository.SaveChangesAsync();
 
             return NoContent();
         }

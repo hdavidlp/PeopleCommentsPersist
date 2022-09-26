@@ -27,6 +27,10 @@ builder.Services.AddDbContext<AccountCommentsContext>(
 
 
 builder.Services.AddScoped<IAccountCommentInfoRepository, AccountCommentInfoRepository>();
+builder.Services.AddScoped<ICommentInfoRepository, CommentInfoRepository>();
+
+
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 

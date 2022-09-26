@@ -18,17 +18,13 @@ namespace PeopleComments.Dll.Services
 
 
         //Comments actions
-        Task<IEnumerable<Comment>> GetCommentsForAccountAsync(int accountId);
-        Task<Comment?> GetCommentForAccount(int accountId, int commentId);
-        (CommentDto, Object) convertoComment(int accountId, Comment newComment);
-        Task<bool> AddCommentForAccountAsync(int accountId, Comment comment);
+        //Task<IEnumerable<Comment>> GetCommentsForAccountAsync(int accountId);
+        //Task<Comment?> GetCommentForAccount(int accountId, int commentId);
+        //(CommentDto, Object) convertoComment(int accountId, Comment newComment);
+        //Task<bool> AddCommentForAccountAsync(int accountId, Comment comment);
 
-        void DeleteCommentForAccount(Comment comment);
-
-
-
-
-        Task<IEnumerable<Account>> GetCommentsAsync();
+        //void DeleteCommentForAccount(Comment comment);
+        //Task<IEnumerable<Account>> GetCommentsAsync();
 
         Task<bool> SaveChangesAsync();
 
