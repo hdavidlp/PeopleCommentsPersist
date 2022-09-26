@@ -22,9 +22,6 @@ namespace PeopleComments.API.Controllers
                 throw new ArgumentNullException(nameof(mapper));
         }
 
-        
-
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CommentDto>>> GetCommentsOfAccount(int accountId)
         {
@@ -58,34 +55,31 @@ namespace PeopleComments.API.Controllers
             return Ok(_mapper.Map<CommentDto>(comment));
         }
 
+        
+
 
         [HttpPost]
         public async Task<ActionResult<CommentDto>> CreateComment(
             int accountId,
-            CommentForCreationDto comment) // This parameter is [FromBody]
+            CommentForCreationDto comment) 
         {
-            if (!await _accountCommentInfoRepository.AccountExistsAsync(accountId))
+            var newComment = _mapper.Map<Comment>(comment);
+
+            if(!await _accountCommentInfoRepository.AddCommentForAccountAsync(
+                accountId, newComment))
             {
                 return NotFound();
             }
 
-            var newComment = _mapper.Map<Comment>(comment);
-
-            await _accountCommentInfoRepository.AddCommentForAccountAsync(
-                accountId, newComment);
-            await _accountCommentInfoRepository.SaveChangesAsync();
-
-            var createdCommentToReturn =
-                _mapper.Map<CommentDto>(newComment);
+            var (createdCommentToReturn, infoAccountIdAndCommentId) =
+                _accountCommentInfoRepository.convertoComment(accountId, newComment);
 
             return CreatedAtRoute("GetComment",
-                new
-                {
-                    accountId = accountId,
-                    commentId = createdCommentToReturn.Id
-                },
+                infoAccountIdAndCommentId,
                 createdCommentToReturn);
         }
+
+
 
         [HttpPut("{commentid}")]
         public async Task<ActionResult> UpdateComment(

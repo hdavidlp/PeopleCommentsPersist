@@ -3,16 +3,21 @@ using PeopleComments.Dll.DbContexts;
 using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Services;
 using PeopleComments.Dll.Models;
+using PeopleComments.Dll.Models.Comment;
+using AutoMapper;
+
 
 namespace PeopleComments.Dll.Services
 {
     public class AccountCommentInfoRepository : IAccountCommentInfoRepository
     {
         private readonly AccountCommentsContext _context;
+        private readonly IMapper _mapper;
 
-        public AccountCommentInfoRepository(AccountCommentsContext context)
+        public AccountCommentInfoRepository(AccountCommentsContext context, IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<bool> AccountExistsAsync(int accountId)
@@ -95,24 +100,42 @@ namespace PeopleComments.Dll.Services
                 .FirstAsync();
         }
 
-        public async Task AddCommentForAccountAsync(int accountId, Comment comment)
+        public (CommentDto, Object) convertoComment(int accountId, Comment newComment)
         {
+            var createdCommentToReturn =
+                _mapper.Map<CommentDto>(newComment);
+
+            var x = new { accountId = accountId, commentId = createdCommentToReturn.Id };
+
+            return (createdCommentToReturn, x);
+        }
+
+        public async Task<bool> AddCommentForAccountAsync(int accountId, Comment comment)
+        {
+
+            if (!await AccountExistsAsync(accountId))
+            {
+                return false;
+            }
+
             var account = await GetAccountAsync(accountId);
             if (account != null)
             {
                 account.Comments.Add(comment);
             }
+
+            await SaveChangesAsync();
+
+            return true;
         }
+
+
 
         public void DeleteCommentForAccount(Comment comment)
         {
             _context.Comments.Remove(comment);
         }
 
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _context.SaveChangesAsync() >= 0);
-        }
 
         // ************************************************************
 
@@ -120,6 +143,12 @@ namespace PeopleComments.Dll.Services
         {
             return await _context.Accounts.Include(c => c.Comments).ToListAsync();
             //return await _context.Comments.Include(c=> c) .ToListAsync();
+        }
+
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0);
         }
 
     }

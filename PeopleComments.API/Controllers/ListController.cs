@@ -12,13 +12,13 @@ namespace PeopleComments.API.Controllers
     [ApiController]
     public class ListController : ControllerBase
     {
-        private readonly IAccountCommentInfoRepository _accountCommentInfoRepository;
+        private readonly IAccountCommentInfoRepository _commentInfoRepository;
         private readonly IMapper _mapper;
 
-        public ListController(IAccountCommentInfoRepository accountCommentInfoRepository, IMapper mapper)
+        public ListController(IAccountCommentInfoRepository commentInfoRepository , IMapper mapper)
         {
-            _accountCommentInfoRepository = accountCommentInfoRepository ??
-                throw new ArgumentNullException(nameof(accountCommentInfoRepository));
+            _commentInfoRepository = commentInfoRepository ??
+                throw new ArgumentNullException(nameof(commentInfoRepository));
             _mapper = mapper ?? 
                 throw new ArgumentNullException(nameof(mapper));
             
@@ -32,7 +32,7 @@ namespace PeopleComments.API.Controllers
             // Account.Name  Comment.CommentDetail Comment.Date
             //    Jhon              Hi               22/09/15
 
-            var allComments = await _accountCommentInfoRepository.GetCommentsAsync();
+            var allComments = await _commentInfoRepository.GetCommentsAsync();
             List<AccountWithCommentListDto> result = new List<AccountWithCommentListDto>();  
 
             foreach (var account in allComments)
