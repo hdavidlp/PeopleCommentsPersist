@@ -2,19 +2,20 @@
 using PeopleComments.Dll.Models;
 using PeopleComments.Dll.Models.Comment;
 using PeopleComments.Dll.Models.LogList;
+using PeopleComments.Dll.Services;
 
-namespace PeopleComments.Dll.Services
+namespace PeopleComments.Dll.Repositories.Account
 {
     public interface IAccountCommentInfoRepository
     {
 
         // Accounts Actions
         Task<bool> AccountExistsAsync(int accountId);
-        Task<IEnumerable<Account>> GetAccountsAsync();
-        Task<(IEnumerable<Account>, PaginationMetaData)> GetAccountsAsync(string? name, string? searchQuery, int pageNumber, int pageSize);
-        Task<Account?> GetAccountAsync(int id);
-        Task AddAccount(Account account);
-        void DeleteAccount(Account account);
+        Task<IEnumerable<Entities.Account>> GetAccountsAsync();
+        Task<(IEnumerable<Entities.Account>, PaginationMetaData)> GetAccountsAsync(string? name, string? searchQuery, int pageNumber, int pageSize);
+        Task<Entities.Account?> GetAccountAsync(int id);
+        Task AddAccount(Entities.Account account);
+        void DeleteAccount(Entities.Account account);
 
 
         //Comments actions

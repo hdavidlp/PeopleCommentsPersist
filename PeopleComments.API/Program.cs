@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PeopleComments.Dll.DbContexts;
-using PeopleComments.Dll.Services;
-
+using PeopleComments.Dll.Repositories.Account;
+using PeopleComments.Dll.Repositories.Comment;
+using PeopleComments.Dll.Services.Account;
+using PeopleComments.Dll.Services.Comment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,8 +28,13 @@ builder.Services.AddDbContext<AccountCommentsContext>(
         builder.Configuration["ConnectionStrings:AccountCommentsInfoDBConnectionString"]));
 
 
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+
 builder.Services.AddScoped<IAccountCommentInfoRepository, AccountCommentInfoRepository>();
 builder.Services.AddScoped<ICommentInfoRepository, CommentInfoRepository>();
+
+
 
 
 

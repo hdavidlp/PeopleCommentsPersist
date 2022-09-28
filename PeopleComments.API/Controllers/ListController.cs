@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Models.Comment;
-using PeopleComments.Dll.Services;
 using PeopleComments.Dll.Models.Account;
+using PeopleComments.Dll.Repositories.Comment;
 
 namespace PeopleComments.API.Controllers
 {

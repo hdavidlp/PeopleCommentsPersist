@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Models.Account;
-using PeopleComments.Dll.Services;
+using PeopleComments.Dll.Repositories.Account;
 using System.Security.Principal;
 using System.Text.Json;
 //using Newtonsoft.Json;
@@ -143,7 +143,7 @@ namespace PeopleComments.API.Controllers
             }
 
             _accountCommentInfoRepository.DeleteAccount(accountEntity);
-            await _accountCommentInfoRepository.SaveChangesAsync();
+            //await _accountCommentInfoRepository.SaveChangesAsync();
 
             return NoContent();
         }

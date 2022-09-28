@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Models.Comment;
-using PeopleComments.Dll.Services;
+using PeopleComments.Dll.Repositories.Account;
+using PeopleComments.Dll.Repositories.Comment;
+using PeopleComments.Dll.Services.Account;
+using PeopleComments.Dll.Services.Comment;
 
 namespace PeopleComments.API.Controllers
 {
@@ -15,10 +18,18 @@ namespace PeopleComments.API.Controllers
         private readonly ICommentInfoRepository _commentInfoRepository;
         private readonly IMapper _mapper;
 
+        private readonly ICommentService _commentService;
+        private readonly IAccountService _accountService;
+
         public CommentController(
             IAccountCommentInfoRepository accountCommentInfoRepository, 
             ICommentInfoRepository commentInfoRepository,
-            IMapper mapper)
+            IMapper mapper,
+
+
+            ICommentService commentService,
+            IAccountService accountService
+            )
         {
             _accountCommentInfoRepository = accountCommentInfoRepository ??
                 throw new ArgumentNullException(nameof(accountCommentInfoRepository));
@@ -26,39 +37,37 @@ namespace PeopleComments.API.Controllers
                 throw new ArgumentNullException(nameof(commentInfoRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
+
+            _commentService = commentService ?? throw new ArgumentNullException(nameof(commentService));
+            _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
+
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CommentDto>>> GetCommentsOfAccount(int accountId)
         {
-            if (!await _accountCommentInfoRepository.AccountExistsAsync(accountId))
-            {
+            var commentsOfAccount = 
+                await _commentService.GetCommentsForAccountAsync(accountId);
+
+            if (!(commentsOfAccount is null))
+                return Ok(commentsOfAccount);
+            else
                 return NotFound();
-            }
-
-            var commentsForAccount = await _commentInfoRepository
-                .GetCommentsForAccountAsync(accountId);
-
-            return Ok(_mapper.Map<IEnumerable<CommentDto>>(commentsForAccount));
         }
+
 
         [HttpGet("{commentId}", Name="GetComment")]
         public async Task<ActionResult<CommentDto>> GetComment(
             int accountId, int commentId)
         {
-            if (!await _accountCommentInfoRepository.AccountExistsAsync(accountId))
-            {
-                return NotFound();
-            }
+            var commentForAccount = 
+                await _commentService.GetCommentForAccountAsync(accountId, commentId);
 
-            var comment = await _commentInfoRepository
-                .GetCommentForAccount(accountId, commentId);
-            if (comment == null)
-            {
+            if (!(commentForAccount is null))
+                return Ok(commentForAccount);
+            else
                 return NotFound();
-            }
 
-            return Ok(_mapper.Map<CommentDto>(comment));
         }
 
         [HttpPost]
@@ -66,20 +75,37 @@ namespace PeopleComments.API.Controllers
             int accountId,
             CommentForCreationDto comment) 
         {
-            var newComment = _mapper.Map<Comment>(comment);
 
-            if(!await _commentInfoRepository.AddCommentForAccountAsync(
-                accountId, newComment))
+            var newComment = comment;
+            bool creationResult = await _commentService.AddCommentForAccountAsync(accountId, newComment);
+
+            if (creationResult)
             {
-                return NotFound();
+                var (createdCommentToReturn, infoAccountIdAndCommentId) =
+                    _commentService.convertoComment(accountId, _mapper.Map<Comment>(newComment));
+
+                return CreatedAtRoute("GetComment",
+                    infoAccountIdAndCommentId,
+                    createdCommentToReturn);
+                
             }
+            else
+                return NotFound();
 
-            var (createdCommentToReturn, infoAccountIdAndCommentId) =
-                _commentInfoRepository.convertoComment(accountId, newComment);
+            //var newComment = _mapper.Map<Comment>(comment);
 
-            return CreatedAtRoute("GetComment",
-                infoAccountIdAndCommentId,
-                createdCommentToReturn);
+            //if(!await _commentInfoRepository.AddCommentForAccountAsync(
+            //    accountId, newComment))
+            //{
+            //    return NotFound();
+            //}
+
+            //var (createdCommentToReturn, infoAccountIdAndCommentId) =
+            //    _commentInfoRepository.convertoComment(accountId, newComment);
+
+            //return CreatedAtRoute("GetComment",
+            //    infoAccountIdAndCommentId,
+            //    createdCommentToReturn);
         }
 
         [HttpPut("{commentid}")]
@@ -94,7 +120,7 @@ namespace PeopleComments.API.Controllers
             }
 
             var commentEntity = await _commentInfoRepository
-                .GetCommentForAccount(accountId, commentId);
+                .GetCommentForAccountAsync(accountId, commentId);
             if (commentEntity == null)
             {
                 return NotFound();
@@ -120,14 +146,14 @@ namespace PeopleComments.API.Controllers
             }
 
             var commentEntity = await _commentInfoRepository
-                .GetCommentForAccount(accountId, commentId);
+                .GetCommentForAccountAsync(accountId, commentId);
             
             if (commentEntity == null)
             {
                 return NotFound();
             }
 
-            _commentInfoRepository.DeleteCommentForAccount(commentEntity);
+            _commentInfoRepository.DeleteCommentForAccountAsync(commentEntity);
             await _commentInfoRepository.SaveChangesAsync();
 
             return NoContent();

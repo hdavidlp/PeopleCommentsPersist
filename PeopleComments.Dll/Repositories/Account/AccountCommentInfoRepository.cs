@@ -1,13 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PeopleComments.Dll.DbContexts;
-using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Services;
+using PeopleComments.Dll.Repositories.Comment;
+
+using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Models;
 using PeopleComments.Dll.Models.Comment;
 using AutoMapper;
 
 
-namespace PeopleComments.Dll.Services
+namespace PeopleComments.Dll.Repositories.Account
 {
     public class AccountCommentInfoRepository : IAccountCommentInfoRepository
     {
@@ -26,18 +28,18 @@ namespace PeopleComments.Dll.Services
         }
 
 
-        public async Task<IEnumerable<Account>> GetAccountsAsync()
+        public async Task<IEnumerable<Entities.Account>> GetAccountsAsync()
         {
-            var collection = _context.Accounts as IQueryable<Account>;
+            var collection = _context.Accounts as IQueryable<Entities.Account>;
             var collectionToReturn = await collection.OrderBy(c => c.Name)
                 .ToListAsync();
             return collectionToReturn;
         }
 
-        public async Task<(IEnumerable<Account>, PaginationMetaData)> GetAccountsAsync(
+        public async Task<(IEnumerable<Entities.Account>, PaginationMetaData)> GetAccountsAsync(
             string? name, string? searchQuery, int pageNumber, int pageSize)
         {
-            var collection = _context.Accounts as IQueryable<Account>;
+            var collection = _context.Accounts as IQueryable<Entities.Account>;
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -49,7 +51,7 @@ namespace PeopleComments.Dll.Services
             {
                 searchQuery = searchQuery.Trim();
                 collection = collection.Where(a => a.Name.Contains(searchQuery)
-                    || (a.Email != null && a.Email.Contains(searchQuery)));
+                    || a.Email != null && a.Email.Contains(searchQuery));
             }
 
             var totalItemCount = await collection.CountAsync();
@@ -66,23 +68,23 @@ namespace PeopleComments.Dll.Services
         }
 
 
-        public async Task<Account?> GetAccountAsync(int id)
+        public async Task<Entities.Account?> GetAccountAsync(int id)
         {
             return await _context.Accounts
                 .Where(a => a.Id == id).FirstOrDefaultAsync();
         }
 
 
-        public Task AddAccount(Account account)
+        public Task AddAccount(Entities.Account account)
         {
             _context.Accounts.Add(account);
             return Task.CompletedTask;
         }
 
 
-        public void DeleteAccount(Account account)
+        public void DeleteAccount(Entities.Account account)
         {
-            _context.Accounts.Remove(account);  
+            _context.Accounts.Remove(account);
         }
 
         //public async Task<IEnumerable<Comment>> GetCommentsForAccountAsync(int accountId)
@@ -148,7 +150,7 @@ namespace PeopleComments.Dll.Services
 
         public async Task<bool> SaveChangesAsync()
         {
-            return (await _context.SaveChangesAsync() >= 0);
+            return await _context.SaveChangesAsync() >= 0;
         }
 
     }
