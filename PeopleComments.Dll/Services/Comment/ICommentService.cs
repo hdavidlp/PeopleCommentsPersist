@@ -15,7 +15,7 @@ namespace PeopleComments.Dll.Services.Comment
         Task<IEnumerable<CommentDto>> GetCommentsForAccountAsync(int accountId);
 
         Task<CommentDto?> GetCommentForAccountAsync(int accountId, int commentId);
-        Task<bool> AddCommentForAccountAsync(int accountId, CommentForCreationDto commentDto);
+        Task<bool> AddCommentForAccountAsync(int accountId, Entities.Comment comment);
 
 
         (CommentDto, object) convertoComment(int accountId, Entities.Comment newComment);

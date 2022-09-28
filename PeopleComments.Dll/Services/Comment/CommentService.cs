@@ -4,6 +4,8 @@ using PeopleComments.Dll.Models.Comment;
 using PeopleComments.Dll.Repositories.Account;
 using PeopleComments.Dll.Repositories.Comment;
 using PeopleComments.Dll.Services.Account;
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,21 +67,24 @@ namespace PeopleComments.Dll.Services.Comment
             return _mapper.Map<CommentDto>(commentForAccount);
         }
 
-        public async Task<bool> AddCommentForAccountAsync(int accountId, CommentForCreationDto commentDto)
+        public async Task<bool> AddCommentForAccountAsync(int accountId, Entities.Comment comment)
         {
-            
             if (!await _accountService.AccountExistsAsync(accountId))
+            {
                 return false;
+            }
 
-            if (commentDto == null)
-                return false;
+            var account = await _accountService.GetAccountAsync(accountId);
+            if (account != null)
+            {
+                account.Comments.Add(comment);
+            }
 
-            bool addCommentResult = await _commentInfoRepository.AddCommentForAccountAsync(
-                                accountId, 
-                                _mapper.Map<Entities.Comment>(commentDto));
+            await _commentInfoRepository.SaveChangesAsync();
 
-            return addCommentResult;
+            return true;
         }
+
 
         public (CommentDto, object) convertoComment(int accountId, Entities.Comment newComment)
         {

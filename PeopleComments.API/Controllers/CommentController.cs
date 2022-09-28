@@ -49,10 +49,8 @@ namespace PeopleComments.API.Controllers
             var commentsOfAccount = 
                 await _commentService.GetCommentsForAccountAsync(accountId);
 
-            if (!(commentsOfAccount is null))
-                return Ok(commentsOfAccount);
-            else
-                return NotFound();
+            if (!(commentsOfAccount is null)) return Ok(commentsOfAccount);
+            else return NotFound();
         }
 
 
@@ -63,11 +61,22 @@ namespace PeopleComments.API.Controllers
             var commentForAccount = 
                 await _commentService.GetCommentForAccountAsync(accountId, commentId);
 
-            if (!(commentForAccount is null))
-                return Ok(commentForAccount);
-            else
-                return NotFound();
+            if (!(commentForAccount is null)) return Ok(commentForAccount);
+            else return NotFound();
+        }
 
+        private CreatedAtRouteResult commentInfoCreated(int accountId, Comment newComment)
+        {
+            var createdCommentToReturn =
+            _mapper.Map<CommentDto>(newComment);
+
+            return CreatedAtRoute("GetComment",
+                new
+                {
+                    accountId = accountId,
+                    commentId = createdCommentToReturn.Id
+                },
+                createdCommentToReturn);
         }
 
         [HttpPost]
@@ -75,38 +84,17 @@ namespace PeopleComments.API.Controllers
             int accountId,
             CommentForCreationDto comment) 
         {
+            var newComment = _mapper.Map<Comment>(comment);
 
-            var newComment = comment;
-            bool creationResult = await _commentService.AddCommentForAccountAsync(accountId, newComment);
-
-            if (creationResult)
-            {
-                var (createdCommentToReturn, infoAccountIdAndCommentId) =
-                    _commentService.convertoComment(accountId, _mapper.Map<Comment>(newComment));
-
-                return CreatedAtRoute("GetComment",
-                    infoAccountIdAndCommentId,
-                    createdCommentToReturn);
-                
-            }
-            else
-                return NotFound();
-
-            //var newComment = _mapper.Map<Comment>(comment);
-
-            //if(!await _commentInfoRepository.AddCommentForAccountAsync(
-            //    accountId, newComment))
-            //{
-            //    return NotFound();
-            //}
-
-            //var (createdCommentToReturn, infoAccountIdAndCommentId) =
-            //    _commentInfoRepository.convertoComment(accountId, newComment);
-
-            //return CreatedAtRoute("GetComment",
-            //    infoAccountIdAndCommentId,
-            //    createdCommentToReturn);
+            bool creationSucceed = 
+                await _commentService.AddCommentForAccountAsync(
+                        accountId, newComment);
+            
+            if (creationSucceed) return commentInfoCreated(accountId, newComment);
+            else return NotFound();
+            
         }
+
 
         [HttpPut("{commentid}")]
         public async Task<ActionResult> UpdateComment(
