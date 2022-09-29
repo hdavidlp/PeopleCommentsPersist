@@ -27,5 +27,11 @@ namespace PeopleComments.Dll.Services.Account
         {
             return await _accountCommentInfoRepository.GetAccountAsync(accountId); 
         }
+
+        public async Task<Entities.Comment?> GetCommentForAccountAsync(int accountId, int commentId)
+        {
+
+            return new Entities.Comment();
+        }
     }
 }

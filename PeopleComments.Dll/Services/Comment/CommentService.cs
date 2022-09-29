@@ -97,7 +97,51 @@ namespace PeopleComments.Dll.Services.Comment
         }
 
 
+        public async Task<bool> UpdateComment(
+            int accountId,
+            int commentId,
+            CommentForUpdateDto comment)
+        {
 
+            if (!await _accountService.AccountExistsAsync(accountId))
+            {
+                return false;
+            }
 
+            var commentEntity = await _commentInfoRepository
+                .GetCommentForAccountAsync(accountId, commentId);
+
+            if (commentEntity == null)
+            {
+                return false;
+            }
+
+            _mapper.Map(comment, commentEntity);
+
+            await _commentInfoRepository.SaveChangesAsync();
+            return true;
+
+        }
+
+        public async Task<bool> DeleteCommentForAccountAsync(int accountId, int commentId)
+        {
+
+            if (!await _accountService.AccountExistsAsync(accountId))
+                return false;
+
+            if (!await _commentInfoRepository.CommentExistsAsync(commentId))
+                return false;
+
+            var commentEntity = await _commentInfoRepository
+                .GetCommentForAccountAsync(accountId, commentId);
+
+            if (commentEntity == null)
+                return false;
+
+            _commentInfoRepository.DeleteCommentForAccountAsync(commentEntity);
+            
+
+            return true;
+        }
     }
 }

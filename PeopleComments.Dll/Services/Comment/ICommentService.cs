@@ -21,6 +21,8 @@ namespace PeopleComments.Dll.Services.Comment
         (CommentDto, object) convertoComment(int accountId, Entities.Comment newComment);
 
 
+        Task<bool> UpdateComment(int accountId, int commentId, CommentForUpdateDto comment);
+        Task<bool> DeleteCommentForAccountAsync(int accountId, int commentId);
 
     }
 }

@@ -14,33 +14,24 @@ namespace PeopleComments.API.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        private readonly IAccountCommentInfoRepository _accountCommentInfoRepository;
-        private readonly ICommentInfoRepository _commentInfoRepository;
+
+        private readonly IAccountService _accountService;
+        private readonly ICommentService _commentService;
+
         private readonly IMapper _mapper;
 
-        private readonly ICommentService _commentService;
-        private readonly IAccountService _accountService;
-
         public CommentController(
-            IAccountCommentInfoRepository accountCommentInfoRepository, 
-            ICommentInfoRepository commentInfoRepository,
-            IMapper mapper,
-
-
             ICommentService commentService,
-            IAccountService accountService
+            IAccountService accountService,
+            IMapper mapper
             )
         {
-            _accountCommentInfoRepository = accountCommentInfoRepository ??
-                throw new ArgumentNullException(nameof(accountCommentInfoRepository));
-            _commentInfoRepository = commentInfoRepository??
-                throw new ArgumentNullException(nameof(commentInfoRepository));
             _mapper = mapper ??
                 throw new ArgumentNullException(nameof(mapper));
-
-            _commentService = commentService ?? throw new ArgumentNullException(nameof(commentService));
-            _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
-
+            _commentService = commentService ?? 
+                throw new ArgumentNullException(nameof(commentService));
+            _accountService = accountService ??
+                throw new ArgumentNullException(nameof(accountService));
         }
 
         [HttpGet]
@@ -102,49 +93,25 @@ namespace PeopleComments.API.Controllers
             int commentId,
             CommentForUpdateDto comment)
         {
-            if (!await _accountCommentInfoRepository.AccountExistsAsync(accountId))
-            {
-                return NotFound();
-            }
+            bool updateSucceed = 
+                await _commentService.UpdateComment(
+                    accountId, commentId, comment);
 
-            var commentEntity = await _commentInfoRepository
-                .GetCommentForAccountAsync(accountId, commentId);
-            if (commentEntity == null)
-            {
-                return NotFound();
-            }
-
-            _mapper.Map(comment, commentEntity);
-
-            await _accountCommentInfoRepository.SaveChangesAsync();
-            return NoContent();
+            if (updateSucceed) return NoContent();
+            else return NotFound();
         }
-
-        
-
 
         [HttpDelete("{commentId}")]
         public async Task<ActionResult> DeleteCommentOfAccount(
             int accountId,
             int commentId)
         {
-            if (!await _accountCommentInfoRepository.AccountExistsAsync(accountId))
-            {
-                return NotFound();
-            }
 
-            var commentEntity = await _commentInfoRepository
-                .GetCommentForAccountAsync(accountId, commentId);
-            
-            if (commentEntity == null)
-            {
-                return NotFound();
-            }
+            bool deleteSeccess = await _commentService
+                .DeleteCommentForAccountAsync(accountId, commentId);
 
-            _commentInfoRepository.DeleteCommentForAccountAsync(commentEntity);
-            await _commentInfoRepository.SaveChangesAsync();
-
-            return NoContent();
+            if (deleteSeccess) return NoContent();
+            else return NotFound();
         }
     }
 }

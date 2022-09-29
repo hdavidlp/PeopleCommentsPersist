@@ -77,41 +77,19 @@ namespace PeopleComments.Dll.Repositories.Comment
 
             await SaveChangesAsync();
             return true;
-
-            //if (!await _accountCommentInfoRepository.AccountExistsAsync(accountId))
-            //    return false;
-            //var account = await _accountCommentInfoRepository.GetAccountAsync(accountId);
-
-            //if (account != null)
-            //{
-            //    account.Comments.Add(comment);
-            //}
-
-            //await SaveChangesAsync();
-
-            //return true;
         }
-
-        
 
 
         public async void DeleteCommentForAccountAsync(Entities.Comment comment)
         {
             _context.Comments.Remove(comment);
-            await _accountCommentInfoRepository.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
-
-
-
-
 
         public async Task<IEnumerable<Entities.Account>> GetCommentsAsync()
         {
             return await _context.Accounts.Include(c => c.Comments).ToListAsync();
         }
-
-
-
 
         public async Task<bool> SaveChangesAsync()
         {
