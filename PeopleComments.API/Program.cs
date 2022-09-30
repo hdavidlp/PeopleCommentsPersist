@@ -33,6 +33,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 
 builder.Services.AddScoped<IAccountCommentInfoRepository, AccountCommentInfoRepository>();
 builder.Services.AddScoped<ICommentInfoRepository, CommentInfoRepository>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
 
 

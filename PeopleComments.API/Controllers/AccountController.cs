@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using PeopleComments.Dll.Entities;
 using PeopleComments.Dll.Models.Account;
 using PeopleComments.Dll.Repositories.Account;
+using PeopleComments.Dll.Services.Account;
+using System.Net.WebSockets;
 using System.Security.Principal;
 using System.Text.Json;
 //using Newtonsoft.Json;
@@ -14,33 +16,34 @@ namespace PeopleComments.API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private const int maxPageSize = 10;
-        private readonly IAccountCommentInfoRepository _accountCommentInfoRepository;
         private readonly IMapper _mapper;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IAccountCommentInfoRepository accountCommentInfoRepository, IMapper mapper)
+        public AccountController(
+            IMapper mapper,
+            IAccountService accountService
+            )
         {
-            _accountCommentInfoRepository = accountCommentInfoRepository ??
-                throw new ArgumentNullException(nameof(accountCommentInfoRepository));
             _mapper = mapper ?? throw
                 new ArgumentNullException(nameof(mapper));
+            _accountService = accountService ?? 
+                throw new ArgumentNullException(nameof(accountService));
         }
 
 
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<AccountWithoutCommentsDto>>> GetAccounts()
         {
-            var accounts = await _accountCommentInfoRepository.GetAccountsAsync();
-            return Ok(_mapper.Map<IEnumerable<AccountWithoutCommentsDto>>(accounts));
+            //var accounts = await _accountService.GetAccountsAsync();
+            var accounts = await _accountService.GetAccountsWithoutCommentsAsync();
+            return Ok(accounts);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountWithoutCommentsDto>>> GetAccounts(
             string? name, string? searchQuery, int pageNumber = 1, int pageSize = 10  )
         {
-            if (pageSize > maxPageSize) pageSize = maxPageSize;
-
-            var (accountEntities, paginationMetaData) = await _accountCommentInfoRepository
+            var (accountEntities, paginationMetaData) = await _accountService
                 .GetAccountsAsync(name, searchQuery, pageNumber, pageSize);
 
             Response.Headers.Add("X-Pagination",
@@ -53,12 +56,9 @@ namespace PeopleComments.API.Controllers
         [HttpGet("{id}", Name = "GetAccount")]
         public async Task<ActionResult<Account>> GetAccount(int id)
         {
-            var account = await _accountCommentInfoRepository.GetAccountAsync(id);
-            if (account == null)
-            {
-                return NotFound();
-            }
+            var account = await _accountService.GetAccountAsync(id);
 
+            if (account == null) return NotFound();
             return Ok(_mapper.Map<AccountWithoutCommentsDto>(account));
         }
 
@@ -68,43 +68,33 @@ namespace PeopleComments.API.Controllers
             )
         {
             var newAccount = _mapper.Map<Account>(account);
-
-            await _accountCommentInfoRepository.AddAccount(newAccount);
-            await _accountCommentInfoRepository.SaveChangesAsync();
-
-            var createdAccountToReturn =
-                _mapper.Map<AccountWithoutCommentsDto>(newAccount);
-
-            return Ok(_mapper.Map<AccountWithoutCommentsDto>(newAccount));
+            
+            if (await _accountService.AddAccount(newAccount))
+                return Ok(_mapper.Map<AccountWithoutCommentsDto>(newAccount));
+            else
+                return BadRequest();
         }
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> ApdateAccount(
+        public async Task<ActionResult> UpdateAccount(
             int id,
             AccountForUpdateDto account)
         {
-            var selectedAccount = await _accountCommentInfoRepository.GetAccountAsync(id);
+            bool updateComplete = await _accountService.UpdateAccount(id, account);
 
-            if (selectedAccount == null)
-            {
-                return NotFound();
-            }
-            
-            //_mapper.Map(source, destination)
-            _mapper.Map(account, selectedAccount);
-
-            await _accountCommentInfoRepository.SaveChangesAsync();
-            return NoContent();
+            if (updateComplete) return NoContent();
+            else return NotFound();
         }
 
 
         [HttpPatch("{id}")]
         public async Task<ActionResult> PartiallyUpdateAccount(
             int id,
+            
             JsonPatchDocument<AccountForUpdateDto> patchData)
         {
-            var account = await _accountCommentInfoRepository.GetAccountAsync(id);
+            var account = await _accountService.GetAccountAsync(id);
 
             if (account == null) 
             {
@@ -126,7 +116,7 @@ namespace PeopleComments.API.Controllers
 
             _mapper.Map(accountToPatch, account);
 
-            await _accountCommentInfoRepository.SaveChangesAsync();
+            await _accountService.SaveChangesAsync();
             return NoContent();
         }
 
@@ -135,15 +125,14 @@ namespace PeopleComments.API.Controllers
         public async Task<ActionResult> DeleteAccount(
             int id)
         {
-            var accountEntity = await _accountCommentInfoRepository.GetAccountAsync(id);
+            var accountEntity = await _accountService.GetAccountAsync(id);
 
             if (accountEntity == null)
             {
                 return NotFound();
             }
 
-            _accountCommentInfoRepository.DeleteAccount(accountEntity);
-            //await _accountCommentInfoRepository.SaveChangesAsync();
+            bool deleteSuccess = await _accountService.DeleteAccount(accountEntity);
 
             return NoContent();
         }
